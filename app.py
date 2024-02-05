@@ -19,34 +19,33 @@ def play_game():
     st.write(f"Random quantity: {quantity}")
     st.write(f"Random price: {price}")
 
-    start_time = time.time()  # Fix: Initialize start_time here
+    if st.button("Start Game"):
+        start_time = time.time()
 
-    st.button("Start Game")
+        try:
+            entered_quantity = st.number_input("Enter quantity (3 digits):")
+            entered_price = st.number_input("Enter price (3 digits):")
+        except ValueError:
+            st.error("Invalid input. Please enter valid three-digit quantity and price.")
+            return 0, 0
 
-    try:
-        entered_quantity = st.number_input("Enter quantity (3 digits):")
-        entered_price = st.number_input("Enter price (3 digits):")
-    except ValueError:
-        st.error("Invalid input. Please enter valid three-digit quantity and price.")
-        return 0, 0
+        accuracy = 100
+        if quantity != entered_quantity:
+            st.warning("Incorrect quantity. Deducting accuracy.")
+            accuracy -= 10
 
-    accuracy = 100
-    if quantity != entered_quantity:
-        st.warning("Incorrect quantity. Deducting accuracy.")
-        accuracy -= 10
+        if round(price, 2) != round(entered_price, 2):
+            st.warning("Incorrect price. Deducting accuracy.")
+            accuracy -= 10
 
-    if round(price, 2) != round(entered_price, 2):
-        st.warning("Incorrect price. Deducting accuracy.")
-        accuracy -= 10
+        elapsed_time = time.time() - start_time
+        st.write(f"Time taken to enter both quantity and price is {elapsed_time:.2f} seconds.")
+        st.write(f"Accuracy: {accuracy}%")
 
-    elapsed_time = time.time() - start_time
-    st.write(f"Time taken to enter both quantity and price is {elapsed_time:.2f} seconds.")
-    st.write(f"Accuracy: {accuracy}%")
+        total_cost = entered_quantity * entered_price
+        st.write(f"Total cost: {total_cost:.2f}")
 
-    total_cost = entered_quantity * entered_price
-    st.write(f"Total cost: {total_cost:.2f}")
-
-    return elapsed_time, accuracy
+        return elapsed_time, accuracy
 
 def main():
     st.title("Stock Game")
