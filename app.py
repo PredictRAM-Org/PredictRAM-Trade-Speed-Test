@@ -19,6 +19,8 @@ def play_game():
     st.write(f"Random quantity: {quantity}")
     st.write(f"Random price: {price}")
 
+    start_time = time.time()  # Fix: Initialize start_time here
+
     st.button("Start Game")
 
     try:
